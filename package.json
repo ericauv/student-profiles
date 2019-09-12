@@ -1,0 +1,25 @@
+{
+  "name": "student-profiles",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ericauv/student-profiles.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ericauv/student-profiles/issues"
+  },
+  "homepage": "https://github.com/ericauv/student-profiles#readme",
+  "dependencies": {
+    "create-react-app": "^3.1.1",
+    "prop-types": "^15.7.2",
+    "styled-components": "^4.3.2"
+  }
+}
