@@ -8,15 +8,21 @@ This application is used to view a list of students and their associated details
 
 1. Navigate to the folder in your terminal
 
-`cd INSERT_PATH_OF_THIS_FOLDER_HERE`
+```bash
+cd INSERT_PATH_OF_THIS_FOLDER
+```
 
 2. Install dependencies
 
-`npm install`
+```bash
+npm install
+```
 
 3. Run the application
 
-`npm start`
+```bash
+npm start
+```
 
 4. View the app in your browser.
 
