@@ -1,13 +1,27 @@
 ## student-list
 
+### Overview
+
+This application is used to view a list of students and their associated details (e.g. email, grades, city, skill, etc.). The list can be filtered by the students names (first or last), as well as any 'tags' assigned to the students. Tags can also be assigned to the students by expanding the student's record (with the + arrow on their record), typing a tag name in the 'Add a tag' field, and pressing enter.
+
 ### Using the Application
 
-To run the application, navigate to the folder in your terminal, then type:
+1. Navigate to the folder in your terminal
+
+`cd INSERT_PATH_OF_THIS_FOLDER_HERE`
+
+2. Install dependencies
+
 `npm install`
 
-This will install the dependencies. Once this is finished, type:
+3. Run the application
 
 `npm start`
 
-This will run the app.
+4. View the app in your browser.
+
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+### Author
+
+Eric Auvaart
