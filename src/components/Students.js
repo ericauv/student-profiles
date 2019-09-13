@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Search from './Search';
+import SearchName from './SearchName';
+import SearchTag from './SearchTag';
 import StudentsList from './StudentsList';
+import { StudentsContext } from '../contexts/students-context';
 
-// TODO:
-// Filter students by Name / Tag
-// Search
-// Autocomplete tag
-// Padding tags
-// grid-gap tags
-// Grade gap too large
 class Students extends Component {
-  state = { students: [], filter: '' };
-  componentDidMount() {
-    fetch('https://www.hatchways.io/api/assessment/students')
-      .then(res => res.json())
-      .then(data => {
-        const { students } = data;
-        this.setState({ students });
-      });
-  }
-
+  updateTags = (student, newValue) => {
+    if (!student.tags) {
+      // API does not return tags property for students, need to create it
+      student.tags = [];
+    }
+    const tags = student.tags;
+    if (tags.some(tag => tag === newValue)) {
+      // don't allow duplicate tags (case-sensitive)
+      alert(
+        `The tag "${newValue}" already exists for ${student.firstName} ${student.lastName}`
+      );
+    } else {
+      student.tags = [...tags, newValue];
+    }
+    return student;
+  };
   updateStudent = (id, propertyName = 'tags', newValue) => {
     const students = [...this.state.students];
     // Look for student in students array
@@ -37,64 +37,61 @@ class Students extends Component {
     } else {
       student[propertyName] = newValue;
     }
-    console.log('objects equal?', students[studentIndex] === student);
 
     // Update the students array in state
     this.setState({ students });
   };
-
-  updateTags = (student, newValue) => {
-    // API does not return tags property for students
-    if (!student.tags) {
-      student.tags = [];
-    }
-    const tags = student.tags;
-    student.tags = [...tags, newValue]; // TODO Don't allow duplicate tags for same student
-    return student;
+  updateNameFilter = newFilter => {
+    this.setState({ nameFilter: newFilter });
   };
-
+  updateTagFilter = newFilter => {
+    this.setState({ tagFilter: newFilter });
+  };
   filterStudents = () => {
     const students = [...this.state.students];
-    const { filter } = this.state;
-    if (!filter) return students;
-
+    const nameFilter = this.state.nameFilter.toLowerCase();
+    const tagFilter = this.state.tagFilter.toLowerCase();
+    if (!nameFilter && !tagFilter) return students;
     return students.filter(student => {
       const tags = student.tags;
       const matchNames =
-        student.firstName.toLowerCase().includes(filter) ||
-        student.lastName.toLowerCase().includes(filter);
-      if (!tags) {
-        return matchNames;
-      } else {
+        student.firstName.toLowerCase().includes(nameFilter) ||
+        student.lastName.toLowerCase().includes(nameFilter);
+      if (tagFilter) {
+        if (!tags) return false;
         return (
-          matchNames || tags.some(tag => tag.toLowerCase().includes(filter))
+          matchNames && tags.some(tag => tag.toLowerCase().includes(tagFilter))
         );
       }
+      return matchNames;
     });
   };
-  updateFilter = newFilter => {
-    this.setState({ filter: newFilter });
+  state = {
+    updateStudent: this.updateStudent,
+    updateNameFilter: this.updateNameFilter,
+    updateTagFilter: this.updateTagFilter,
+    students: [],
+    nameFilter: '',
+    tagFilter: ''
   };
+  componentDidMount() {
+    fetch('https://www.hatchways.io/api/assessment/students')
+      .then(res => res.json())
+      .then(data => {
+        const { students } = data;
+        this.setState({ students });
+      });
+  }
   render() {
-    const studentsList = this.filterStudents();
-    console.log(studentsList);
-
+    const filteredStudents = this.filterStudents();
     return (
-      <div>
-        <Search
-          filter={this.state.filter}
-          updateFilter={this.updateFilter}
-        ></Search>
-        <StudentsList
-          filter={this.state.filter}
-          students={this.filterStudents()}
-          updateStudent={this.updateStudent}
-        ></StudentsList>
-      </div>
+      <StudentsContext.Provider value={this.state}>
+        <SearchName></SearchName>
+        <SearchTag></SearchTag>
+        <StudentsList students={filteredStudents}></StudentsList>
+      </StudentsContext.Provider>
     );
   }
 }
-
-Students.propTypes = {};
 
 export default Students;

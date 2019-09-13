@@ -3,25 +3,22 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const TagStyles = styled.div`
-  margin: none;
-  position: relative;
-  max-width: 80px;
-  min-width: 10px;
-  height: 30px;
-  background: lightgrey;
-  border-radius: 5%;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  background: gainsboro;
+  height: 40px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
 `;
 
 const TagTextStyles = styled.p`
-    margin: 0;
-    position: absolute;
-    left:50%;
-    top: 50%;
-    transform: translate(-50%, -50%) }
-    `;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+`;
 const Tag = props => {
   return (
     <TagStyles>

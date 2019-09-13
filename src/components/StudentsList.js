@@ -1,24 +1,20 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+import styled from 'styled-components';
 import Student from './Student';
-const StudentsList = props => {
-  const { updateStudent } = props;
-  return (
-    <div>
-      {props.students.map(student => (
-        <Student
-          updateStudent={updateStudent}
-          key={student.id}
-          student={student}
-        ></Student>
-      ))}
-    </div>
-  );
-};
 
-StudentsList.propTypes = {
-  updateStudent: PropTypes.func.isRequired,
-  students: PropTypes.arrayOf(PropTypes.object).isRequired
+const StudentsListStyles = styled.div`
+  overflow-y: scroll;
+  height: 100%;
+`;
+
+const StudentsList = ({ students }) => {
+  return (
+    <StudentsListStyles>
+      {students.map(student => (
+        <Student key={student.id} student={student} />
+      ))}
+    </StudentsListStyles>
+  );
 };
 
 export default StudentsList;

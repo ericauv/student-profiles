@@ -5,34 +5,40 @@ import Grades from './Grades';
 import ExpandButton from './ExpandButton';
 import Tags from './Tags';
 
-const NameStyles = styled.h1`
-  text-transform: uppercase;
-`;
 const StudentStyles = styled.div`
   border-bottom: 1px solid black;
   padding-top: 20px;
   padding-bottom: 20px;
-  display: grid;
-  grid-template-columns: minmax(80px, 200px) minmax(100px, 2fr) minmax(
-      20px,
-      0.5fr
-    );
+  display: flex;
+  grid-gap: 30px;
+  position: relative;
 `;
 
 const ProfilePicStyles = styled.img`
-  width: 100%;
+  margin-top: 10px;
+  margin-right: 20px;
+  min-height: 120px;
+  max-height: 120px;
+  height: 120px;
   border-radius: 50%;
   border: 1px solid black;
-  margin-right: 50px;
+`;
+const NameStyles = styled.h1`
+  text-transform: uppercase;
+  padding-right: 50px;
 `;
 
-const DetailsStyles = styled.ul`
-  list-style-type: none;
+const DetailsStyles = styled.div`
+  padding-left: 20px;
+  p {
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+  }
 `;
 
 class Student extends Component {
   state = {
-    isExpanded: true
+    isExpanded: false
   };
   toggleExpand = () => {
     const isExpanded = !this.state.isExpanded;
@@ -49,20 +55,7 @@ class Student extends Component {
 
   render() {
     const { student } = this.props;
-    const {
-      city,
-      company,
-      email,
-      firstName,
-      grades,
-      id,
-      lastName,
-      pic,
-      skill,
-      tags
-    } = student;
-    const { updateStudent } = this.props;
-
+    const { pic, firstName, lastName, email, company, skill, grades } = student;
     const { isExpanded } = this.state;
     const average = this.calculateAverage(grades);
 
@@ -74,22 +67,26 @@ class Student extends Component {
             {firstName} {lastName}
           </NameStyles>
           <DetailsStyles>
-            <li>Email: {email}</li>
-            <li>Company: {company}</li>
-            <li>Skill: {skill}</li>
-            <li>Average: {average}%</li>
+            <p>Email: {email}</p>
+            <p>Company: {company}</p>
+            <p>Skill: {skill}</p>
+            <p>Average: {average}%</p>
           </DetailsStyles>
           {isExpanded && (
             <>
-              <Grades isExpanded={isExpanded} grades={grades}></Grades>
-              <Tags student={student} updateStudent={updateStudent} />
+              <div>
+                <Grades isExpanded={isExpanded} grades={grades}></Grades>
+              </div>
+              <div>
+                <Tags student={student} />
+              </div>
             </>
           )}
+          <ExpandButton
+            isExpanded={isExpanded}
+            toggleExpand={this.toggleExpand}
+          ></ExpandButton>
         </div>
-        <ExpandButton
-          isExpanded={isExpanded}
-          toggleExpand={this.toggleExpand}
-        ></ExpandButton>
       </StudentStyles>
     );
   }
@@ -107,8 +104,7 @@ Student.propTypes = {
     pic: PropTypes.string,
     skill: PropTypes.string,
     tags: PropTypes.arrayOf(PropTypes.string)
-  }),
-  updateStudent: PropTypes.func.isRequired
+  })
 };
 
 export default Student;

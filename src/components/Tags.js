@@ -7,26 +7,25 @@ import Tag from './Tag';
 const TagsStyles = styled.ul`
   list-style-type: none;
   margin-top: 20px;
-  display: grid;
-  grid-gap: 10px;
-  grid-template-columns: repeat(auto-fill, minmax(10px, 100px));
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 400px;
+  margin-bottom: 0;
 `;
 
-const Tags = props => {
-  const { updateStudent, student } = props;
+const Tags = ({ student }) => {
   return (
-    <div>
+    <>
       <TagsStyles>
         {student.tags &&
           student.tags.map((tag, index) => <Tag key={index} tag={tag}></Tag>)}
       </TagsStyles>
-      <AddTag id={student.id} updateStudent={updateStudent}></AddTag>
-    </div>
+      <AddTag id={student.id}></AddTag>
+    </>
   );
 };
 
 Tags.propTypes = {
-  updateStudent: PropTypes.func.isRequired,
   student: PropTypes.object.isRequired
 };
 

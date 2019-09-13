@@ -2,11 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 const ExpandButtonStyles = styled.button`
-  height: 2rem;
-  width: 2rem;
+  position: absolute;
+  padding-left: 20px;
+  top: 0;
+  right: 1%;
+  width: 4rem;
   cursor: pointer;
-  font-size: 1.7rem;
-  color: grey;
+  font-size: 4rem;
+  color: #aaaaaa;
   background: none;
   border: none;
   outline: none;
